@@ -206,7 +206,12 @@ function server () {
     index: 'index.html'
   })
   http.createServer(
-    function (req, res) { mount(req, res) }
+    function (req, res) {
+      if ( req.url.match(/^\/download/) ) {
+        res.setHeader('X-Robots-Tag', 'noindex');
+      }
+      mount(req, res)
+  }
   ).listen(8080,
     function () { console.log('http://localhost:8080/en/') }
   )
